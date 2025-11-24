@@ -1,0 +1,28 @@
+# Files created by OS
+#
+.DS_Store
+Desktop.ini
+
+# Files created by IDE
+#
+/.idea/
+/.vscode/
+/.vs/
+
+/*.code-workspace
+
+# Generated & compiled files
+#
+/main
+
+# Environmental files
+#
+.env
+
+# Log files
+#
+*.log
+
+# Not ignored
+#
+!.gitkeep
