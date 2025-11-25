@@ -14,6 +14,8 @@ int main()
     printf("Inserisci il tuo numero preferito: ");
     scanf("%d", &numeroPreferito);
 
+    printf("\n");
+
     int numeroAllaSeconda = numeroPreferito * numeroPreferito;
 
     printf("Il valore è: %d\n", numeroAllaSeconda);

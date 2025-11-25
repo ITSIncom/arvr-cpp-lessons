@@ -18,6 +18,8 @@ int main()
     printf("Inserisci il secondo numero: ");
     scanf("%d", &y);
 
+    printf("\n");
+
     if (x == y)
     {
         printf("Bravo! Hai inserito 2 numeri uguali.");

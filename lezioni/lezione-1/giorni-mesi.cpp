@@ -27,6 +27,8 @@ int main()
     printf("Inserisci l'anno: ");
     scanf("%d", &anno);
 
+    printf("\n");
+
     int giorniDelMese;
 
     switch (mese)

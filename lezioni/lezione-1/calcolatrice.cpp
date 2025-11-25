@@ -28,6 +28,8 @@ int main()
     printf("Inserisci un operatore (`+`, `-`, `*`, `/`): ");
     scanf(" %c", &operatore);
 
+    printf("\n");
+
     float risultato;
 
     switch (operatore)

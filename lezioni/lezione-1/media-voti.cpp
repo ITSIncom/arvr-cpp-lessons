@@ -19,7 +19,7 @@ int main()
 
     if ((voto < 1) || (voto > 10))
     {
-        printf("Il voto `%d` inserito non è un voto valido. Termino il programma.", voto);
+        printf("\nIl voto `%d` inserito non è un voto valido. Termino il programma.", voto);
         return 1;
     }
 
@@ -30,7 +30,7 @@ int main()
 
     if ((voto < 1) || (voto > 10))
     {
-        printf("Il voto `%d` inserito non è un voto valido. Termino il programma.", voto);
+        printf("\nIl voto `%d` inserito non è un voto valido. Termino il programma.", voto);
         return 2;
     }
 
@@ -41,7 +41,7 @@ int main()
 
     if ((voto < 1) || (voto > 10))
     {
-        printf("Il voto `%d` inserito non è un voto valido. Termino il programma.", voto);
+        printf("\nIl voto `%d` inserito non è un voto valido. Termino il programma.", voto);
         return 3;
     }
 
@@ -52,7 +52,7 @@ int main()
 
     if ((voto < 1) || (voto > 10))
     {
-        printf("Il voto `%d` inserito non è un voto valido. Termino il programma.", voto);
+        printf("\nIl voto `%d` inserito non è un voto valido. Termino il programma.", voto);
         return 4;
     }
     somma += voto;
@@ -62,13 +62,13 @@ int main()
 
     if ((voto < 1) || (voto > 10))
     {
-        printf("Il voto `%d` inserito non è un voto valido. Termino il programma.", voto);
+        printf("\nIl voto `%d` inserito non è un voto valido. Termino il programma.", voto);
         return 5;
     }
 
     somma += voto;
 
-    printf("La media dei voti inseriti è: %f", ((float)somma / 5));
+    printf("\nLa media dei voti inseriti è: %f", ((float)somma / 5));
 
     return 0;
 }

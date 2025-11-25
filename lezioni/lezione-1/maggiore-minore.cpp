@@ -18,6 +18,8 @@ int main()
     printf("Inserisci il valore di Y: ");
     scanf("%d", &y);
 
+    printf("\n");
+
     if (x > y)
     {
         printf("X è la variabile più grande. Il suo valore è: %d", x);
