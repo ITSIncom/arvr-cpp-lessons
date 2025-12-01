@@ -49,7 +49,7 @@ int main()
         {
             if ((value % divisor) == 0)
             {
-                isPrime = false;
+                isPrime = (value == 3);
             }
             else
             {
@@ -70,6 +70,18 @@ int main()
             printf("Il numero `%d` è divisibile per: %d\n", value, divisor);
             printf("Non è un numero primo.\n");
         }
+    }
+    else if (value < 0)
+    {
+        printf("Non sono considerati i numeri negativi. Usa il valore assoluto del numero.");
+    }
+    else if (value == 1)
+    {
+        printf("Il numero `1` non è un numero primo.");
+    }
+    else
+    {
+        printf("Il numero `0` non è un numero primo.");
     }
 
     return 0;
