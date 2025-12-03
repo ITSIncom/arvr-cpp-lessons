@@ -18,19 +18,17 @@ int main()
 {
     int value;
 
-    int multiplier = 1;
-    unsigned long result = 1;
+    unsigned long long result = 1;
 
     printf("Di che numero vuoi calcolare il fattoriale? ");
     scanf("%d", &value);
 
-    while (multiplier <= value)
+    for (int i = 2; i <= value; i++)
     {
-        result *= multiplier;
-        multiplier += 1;
+        result *= i;
     }
 
-    printf("Il fattoriale di %d è: %lu", value, result);
+    printf("Il fattoriale di %d è: %llu", value, result);
 
     return 0;
 }
