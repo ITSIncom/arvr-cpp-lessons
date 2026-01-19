@@ -88,7 +88,7 @@ const char STUDENT_SURNAMES[][MAX_NAMES] =
 
 /* Utils... */
 
-void gets(char* buffer, int size)
+void _gets(char* buffer, int size)
 {
     fgets(buffer, size, stdin);
 
@@ -98,9 +98,16 @@ void gets(char* buffer, int size)
         buffer[len - 1] = '\0';
     }
 }
-void fputs(const char* buffer)
+void _puts(const char* buffer)
 {
     fputs(buffer, stdout);
+}
+
+void _clear()
+{
+    int c;
+
+    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 /* Init... */
@@ -196,12 +203,406 @@ int generate_students(Studente studenti[])
     return max_studenti;
 }
 
+/* Vote functions... */
+
+int aggiungi_voto(Studente studenti[], int studenti_count, int index)
+{
+    if (studenti_count == 0)
+    {
+        printf("Nessuno studente presente a sistema.\n");
+
+        return -1;
+    }
+    if ((index < 0) || (index >= studenti_count))
+    {
+        printf("Lo studente selezionato non è valido.\n");
+
+        return -1;
+    }
+
+    Studente* studente = &studenti[index];
+
+    if (studente -> voti_count >= MAX_VOTES)
+    {
+        printf("Numero massimo di voti collezionabili dallo studente raggiunto.\n");
+        printf("Non è più possibile aggiungere nuovi voti per lo studente selezionato.\n");
+
+        return -1;
+    }
+
+    Voto nuovo_voto;
+
+    int materia;
+    printf("Materie:\n");
+    printf(" 0. Italiano\n");
+    printf(" 1. Storia\n");
+    printf(" 2. Geografia\n");
+    printf(" 3. Matematica\n");
+    printf(" 4. Chimica\n");
+    printf(" 5. Fisica\n");
+    printf(" 6. Informatica\n");
+    printf(" 7. Educazione Fisica\n\n");
+
+    printf("Seleziona la materia del voto: ");
+    scanf("%d", &materia);
+    nuovo_voto.materia = (Materia)materia;
+
+    printf("Inserisci la data del voto (gg/mm/aaaa): ");
+    scanf("%d/%d/%d", &nuovo_voto.data.day, &nuovo_voto.data.month, &nuovo_voto.data.year);
+
+    printf("Inserisci il valore del voto: ");
+    scanf("%f", &nuovo_voto.valore);
+    
+    _clear();
+
+    studente -> voti[studente -> voti_count] = nuovo_voto;
+    studente -> voti_count += 1;
+
+    printf("Voto aggiunto con successo.\n");
+
+    return 0;
+}
+void visualizza_voti(Studente studenti[], int studenti_count, int index)
+{
+    if (studenti_count == 0)
+    {
+        printf("Nessuno studente presente a sistema.\n");
+
+        return;
+    }
+    if ((index < 0) || (index >= studenti_count))
+    {
+        printf("Lo studente selezionato non è valido.\n");
+
+        return;
+    }
+
+    Studente studente = studenti[index];
+
+    if (studente.voti_count == 0)
+    {
+        printf("Nessuna votazione presente per lo studente selezionato.\n");
+
+        return;
+    }
+
+    printf("Voti dello studente %s %s:\n", studente.nome, studente.cognome);
+    for (int i = 0; i < studente.voti_count; i += 1)
+    {
+        Voto voto = studente.voti[i];
+
+        printf(" Voto %d:\n", i + 1);
+        printf("  ├ Materia: %s\n", convert_subject_to_string(voto.materia));
+        printf("  ├ Data: %02d/%02d/%04d\n", voto.data.day, voto.data.month, voto.data.year);
+        printf("  └ Valore: %.2f\n", voto.valore);
+        printf("\n");
+    }
+}
+void calcola_media(Studente studenti[], int studenti_count, int index)
+{
+    if (studenti_count == 0)
+    {
+        printf("Nessuno studente presente a sistema.\n");
+
+        return;
+    }
+    if ((index < 0) || (index >= studenti_count))
+    {
+        printf("Lo studente selezionato non è valido.\n");
+
+        return;
+    }
+
+    Studente studente = studenti[index];
+
+    if (studente.voti_count == 0)
+    {
+        printf("Nessuna votazione presente per lo studente selezionato.\n");
+
+        return;
+    }
+
+    float somma = 0.0f;
+    for (int i = 0; i < studente.voti_count; i += 1)
+    {
+        somma += studente.voti[i].valore;
+    }
+
+    float media = somma / studente.voti_count;
+
+    printf("La media dei voti dello studente %s %s è: %.2f\n", studente.nome, studente.cognome, media);
+}
+int rimuovi_voto(Studente studenti[], int studenti_count, int index)
+{
+    if (studenti_count == 0)
+    {
+        printf("Nessuno studente presente a sistema.\n");
+
+        return -1;
+    }
+    if ((index < 0) || (index >= studenti_count))
+    {
+        printf("Lo studente selezionato non è valido.\n");
+
+        return -1;
+    }
+
+    Studente* studente = &studenti[index];
+
+    if (studente -> voti_count == 0)
+    {
+        printf("Nessuna votazione presente per lo studente selezionato.\n");
+
+        return -1;
+    }
+
+    studente -> voti_count -= 1;
+
+    printf("Ultimo voto rimosso con successo.\n");
+
+    return 0;
+}
+
+/* Student functions... */
+
+int aggiungi_studente(Studente studenti[], int* studenti_count)
+{
+    if (*studenti_count >= MAX_STUDENTS)
+    {
+        printf("Numero massimo di studenti collezionabili raggiunto.\n");
+        printf("Non è più possibile aggiungere nuovi studenti.\n");
+
+        return -1;
+    }
+
+    Studente nuovo_studente;
+
+    printf("Inserisci il nome dello studente: ");
+    _gets(nuovo_studente.nome, MAX_NAMES);
+
+    printf("Inserisci il cognome dello studente: ");
+    _gets(nuovo_studente.cognome, MAX_NAMES);
+
+    printf("Inserisci la data di nascita (gg/mm/aaaa): ");
+    scanf("%d/%d/%d", &nuovo_studente.data_nascita.day, &nuovo_studente.data_nascita.month, &nuovo_studente.data_nascita.year);
+
+    _clear();
+
+    nuovo_studente.voti_count = 0;
+
+    studenti[*studenti_count] = nuovo_studente;
+    *studenti_count += 1;
+
+    printf("Studente aggiunto con successo.\n");
+
+    return 0;
+}
+void elenca_studenti(Studente studenti[], int studenti_count)
+{
+    if (studenti_count == 0)
+    {
+        printf("Nessuno studente presente a sistema.\n");
+
+        return;
+    }
+
+    for (int i = 0; i < studenti_count; i += 1)
+    {
+        Studente studente = studenti[i];
+
+        printf("Studente %d:\n", i + 1);
+        printf(" ├ Nome: %s\n", studente.nome);
+        printf(" ├ Cognome: %s\n", studente.cognome);
+        printf(" ├ Data di nascita: %02d/%02d/%04d\n", studente.data_nascita.day, studente.data_nascita.month, studente.data_nascita.year);
+        printf(" └ Numero di valutazioni: %d\n", studente.voti_count);
+        printf("\n");
+    }
+}
+
+int elimina_studente(Studente studenti[], int* studenti_count, int index)
+{
+    if (*studenti_count == 0)
+    {
+        printf("Nessuno studente presente a sistema.\n");
+
+        return -1;
+    }
+    if ((index < 0) || (index >= *studenti_count))
+    {
+        printf("Lo studente selezionato non è valido.\n");
+
+        return -1;
+    }
+
+    for (int i = index; i < (*studenti_count - 1); i += 1)
+    {
+        studenti[i] = studenti[i + 1];
+    }
+
+    *studenti_count -= 1;
+
+    printf("Studente eliminato con successo.\n");
+    return 0;
+}
+
+/* Menu functions... */
+
+bool scegli_studente(Studente studenti[], int studenti_count, int* index)
+{
+    if (studenti_count == 0)
+    {
+        printf("Nessuno studente presente a sistema.\n");
+
+        return false;
+    }
+
+    for (int i = 0; i < studenti_count; i += 1)
+    {
+        Studente studente = studenti[i];
+
+        printf("%d. %s %s\n", i + 1, studente.nome, studente.cognome);
+    }
+    printf("0. Torna indietro\n\n");
+
+    int selezione;
+    printf("Seleziona uno studente: ");
+    scanf("%d", &selezione);
+    printf("\n");
+
+    _clear();
+
+    if (selezione == 0) { return false; }
+    if ((selezione < 1) || (selezione > studenti_count))
+    {
+        printf("Lo studente selezionato non è valido.\n");
+
+        return true;
+    }
+
+    *index = selezione - 1;
+
+    return true;
+}
+bool menu_studente(Studente studenti[], int* studenti_count, int index)
+{
+    char scelta;
+
+    printf("\n");
+    printf("1. Aggiungi voto\n");
+    printf("2. Visualizza voti\n");
+    printf("3. Calcola media\n");
+    printf("4. Rimuovi voto\n");
+    printf("5. Elimina studente\n");
+    printf("0. Torna al menu principale\n\n");
+
+    printf("Seleziona un'opzione: ");
+    scanf(" %c", &scelta);
+    printf("\n");
+
+    _clear();
+
+    switch (scelta)
+    {
+        case '1':
+            aggiungi_voto(studenti, *studenti_count, index);
+
+            return true;
+
+        case '2':
+            visualizza_voti(studenti, *studenti_count, index);
+
+            return true;
+
+        case '3':
+            calcola_media(studenti, *studenti_count, index);
+
+            return true;
+
+        case '4':
+            rimuovi_voto(studenti, *studenti_count, index);
+
+            return true;
+
+        case '5':
+            elimina_studente(studenti, studenti_count, index);
+
+            return true;
+
+        case '0':
+            return false;
+
+        default:
+            printf("Opzione non valida.\n");
+
+            return true;
+    }
+}
+
+void gestisci_studente(Studente studenti[], int* studenti_count)
+{
+    int index;
+
+    while (true)
+    {
+        if (!(scegli_studente(studenti, *studenti_count, &index))) { return; }
+
+        while (menu_studente(studenti, studenti_count, index));
+    }
+}
+
+bool menu_principale(Studente studenti[], int* studenti_count)
+{
+    char scelta;
+
+    printf("\n");
+    printf("1. Aggiungi un nuovo studente\n");
+    printf("2. Elenca tutti gli studenti\n");
+    printf("3. Gestisci uno studente\n");
+    printf("0. Esci\n\n");
+
+    printf("Seleziona un'opzione: ");
+    scanf(" %c", &scelta);
+    printf("\n");
+
+    _clear();
+
+    switch (scelta)
+    {
+        case '1':
+            aggiungi_studente(studenti, studenti_count);
+
+            return true;
+
+        case '2':
+            elenca_studenti(studenti, *studenti_count);
+            
+            return true;
+
+        case '3':
+            gestisci_studente(studenti, studenti_count);
+            
+            return true;
+            
+        case '0':
+            printf("Uscita in corso...\n");
+            
+            return false;
+
+        default:
+            printf("Opzione non valida.\n");
+
+            return true;
+    }
+}
+
 int main()
 {
     int studenti_count;
     Studente studenti[MAX_STUDENTS];
 
     studenti_count = generate_students(studenti);
+
+    while (menu_principale(studenti, &studenti_count));
 
     return 0;
 }
