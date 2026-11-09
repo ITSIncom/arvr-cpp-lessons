@@ -143,6 +143,7 @@
     <ClCompile Include="Calcolatrice.cpp" />
     <ClCompile Include="EquazioneSecondoGrado.cpp" />
     <ClCompile Include="MinoreMaggiore.cpp" />
+    <ClCompile Include="NumeriPrimi.cpp" />
     <ClCompile Include="OrdineAlfabetico.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

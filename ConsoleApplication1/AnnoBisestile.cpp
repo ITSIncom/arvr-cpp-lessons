@@ -4,19 +4,28 @@
 
 int anno_bisestile()
 {
-	int anno;
+	int anno = 1;
 
-	printf("Inserisci un anno per controllare che sia bisestile: ");
-	scanf("%d", &anno);
+	while (anno > 0)
+	{
+		printf("Inserisci un anno per controllare che sia bisestile: ");
+		scanf("%d", &anno);
 
-	if ((anno % 400 == 0) || ((anno % 100 != 0) && (anno % 4 == 0)))
-	{
-		printf("L'anno %d e' bisestile.", anno);
+		if (anno <= 0)
+		{
+			break;
+		}
+		if ((anno % 400 == 0) || ((anno % 100 != 0) && (anno % 4 == 0)))
+		{
+			printf("L'anno %d e' bisestile.\n", anno);
+		}
+		else
+		{
+			printf("L'anno %d non e' bisestile.\n", anno);
+		}
 	}
-	else
-	{
-		printf("L'anno %d non e' bisestile.", anno);
-	}
+
+	printf("Grazie, arrivederci e torna presto.\n");
 
 	return 0;
 }

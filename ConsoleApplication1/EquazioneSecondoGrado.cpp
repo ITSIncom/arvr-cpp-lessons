@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-int main()
+int equazione_secondo_grado()
 {
 	int a, b, c;
 
